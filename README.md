@@ -45,11 +45,10 @@ return [
 
 `composer require black/sylius-banner-plugin:^1.0.0@dev`
 
-
-
-
+6.Add the bundle FOSCKeditor
+`composer require friendsofsymfony/ckeditor-bundle`
  
-6. Add this files to your project  
+7. Add this files to your project  
 
 ```xml
 <!-- config/api_platform/Banner.xml -->
@@ -273,7 +272,8 @@ return [
         <property name="locale" required="true"/>
     </resource>
 </resources>```
-7.add this files to your project 
+
+8.add this files to your project 
 
 ```xml
 <!-- config/serialization/Banner.xml -->
@@ -362,7 +362,7 @@ return [
     </class>
 </serializer>
 ```
-8. Execute migration
+9. Execute migration
 
 ```bash
 bin/console doctrine:migrations:diff
