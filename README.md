@@ -46,6 +46,8 @@ return [
 `composer require black/sylius-banner-plugin:^1.0.0@dev`
 
 6.Add the bundle FOSCKeditor
+
+
 `composer require friendsofsymfony/ckeditor-bundle`
  
 7. Add this files to your project  
