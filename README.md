@@ -71,16 +71,6 @@ return [
                 </attribute>
             </collectionOperation>
 
-            <!-- <collectionOperation name="admin_get">
-                <attribute name="method">GET</attribute>
-                <attribute name="path">/admin/banners/{id}/name</attribute>
-                <attribute name="normalization_context">
-                    <attribute name="groups">admin:banner:read</attribute>
-                </attribute>
-            </collectionOperation> -->
-
-  
-
             <collectionOperation name="admin_post">
                 <attribute name="method">POST</attribute>
                 <attribute name="path">/admin/banners</attribute>
@@ -103,7 +93,7 @@ return [
         <itemOperations>
             <itemOperation name="admin_get">
                 <attribute name="method">GET</attribute>
-                <attribute name="path">/admin/banner/{id}</attribute>
+                <attribute name="path">/admin/banner/{code}</attribute>
                 <attribute name="normalization_context">
                     <attribute name="groups">admin:banner:read</attribute>
                 </attribute>
@@ -111,7 +101,7 @@ return [
 
             <itemOperation name="admin_put">
                 <attribute name="method">PUT</attribute>
-                <attribute name="path">/admin/banner/{id}</attribute>
+                <attribute name="path">/admin/banner/{code}</attribute>
                 <attribute name="denormalization_context">
                     <attribute name="groups">admin:banner:update</attribute>
                 </attribute>
@@ -119,12 +109,12 @@ return [
 
             <itemOperation name="admin_delete">
                 <attribute name="method">DELETE</attribute>
-                <attribute name="path">/admin/banner/{id}</attribute>
+                <attribute name="path">/admin/banner/{code}</attribute>
             </itemOperation>
 
             <itemOperation name="shop_get">
                 <attribute name="method">GET</attribute>
-                <attribute name="path">/shop/banner/{id}</attribute>
+                <attribute name="path">/shop/banner/{code}</attribute>
                 <attribute name="normalization_context">
                     <attribute name="groups">shop:banner:read</attribute>
                 </attribute>
@@ -132,23 +122,27 @@ return [
         </itemOperations>
 
         <property name="id" identifier="false" writable="false"/>
+        <property name="code" identifier="true" readable="true" writable="true"/>
         <property name="enabled" readable="true" writable="true"/>
-        <property name="translations" required="true">
+
+        <property name="slides">
             <attribute name="openapi_context">
                 <attribute name="type">object</attribute>
-                <attribute name="example">
-                    <attribute name="en_US">
-                        <attribute name="locale">string</attribute>
-                    </attribute>
-                </attribute>
+                    <attribute name="example">
+                        <attribute name="id">string</attribute>
+                        <attribute name="path">string</attribute>
+                        <attribute name="translations" >
+                            <attribute name="example">
+                                <attribute name="en_US">
+                                    <attribute name="locale">string</attribute>
+                                </attribute>
+                            </attribute>               
+                        </attribute>                     
+                    </attribute>                        
             </attribute>
         </property>
-        <property name="channels" required="false"/>
-        <property name="createdAt" writable="false"/>
-        <property name="updatedAt" writable="false"/>
     </resource>
-</resources>
-```
+</resources>```
 
 ```xml
 <!-- config /api_paltform/Slide.xml -->
@@ -159,7 +153,7 @@ return [
            xsi:schemaLocation="https://api-platform.com/schema/metadata https://api-platform.com/schema/metadata/metadata-2.0.xsd"
 >
     <resource class="Black\SyliusBannerPlugin\Entity\Slide" shortName="slide">
-        <attribute name="validation_groups">slide</attribute>
+        <attribute name="validation_groups">banner</attribute>
 
         <collectionOperations>
 
@@ -167,7 +161,7 @@ return [
                 <attribute name="method">GET</attribute>
                 <attribute name="path">/admin/slides</attribute>
                 <attribute name="normalization_context">
-                    <attribute name="groups">admin:slider:read</attribute>
+                    <attribute name="groups">admin:banner:read</attribute>
                 </attribute>
             </collectionOperation>
 
@@ -185,7 +179,7 @@ return [
                 <attribute name="method">POST</attribute>
                 <attribute name="path">/admin/slides</attribute>
                 <attribute name="denormalization_context">
-                    <attribute name="groups">admin:slider:create</attribute>
+                    <attribute name="groups">admin:banner:create</attribute>
                 </attribute>
             </collectionOperation>
 
@@ -195,7 +189,7 @@ return [
                 <attribute name="method">GET</attribute>
                 <attribute name="path">/shop/slides</attribute>
                 <attribute name="normalization_context">
-                    <attribute name="groups">shop:slider:read</attribute>
+                    <attribute name="groups">shop:banner:read</attribute>
                 </attribute>
             </collectionOperation>
         </collectionOperations>
@@ -205,7 +199,7 @@ return [
                 <attribute name="method">GET</attribute>
                 <attribute name="path">/admin/slide/{id}</attribute>
                 <attribute name="normalization_context">
-                    <attribute name="groups">admin:slider:read</attribute>
+                    <attribute name="groups">admin:banner:read</attribute>
                 </attribute>
             </itemOperation>
 
@@ -213,7 +207,7 @@ return [
                 <attribute name="method">PUT</attribute>
                 <attribute name="path">/admin/slide/{id}</attribute>
                 <attribute name="denormalization_context">
-                    <attribute name="groups">admin:slider:update</attribute>
+                    <attribute name="groups">admin:banner:update</attribute>
                 </attribute>
             </itemOperation>
 
@@ -226,7 +220,7 @@ return [
                 <attribute name="method">GET</attribute>
                 <attribute name="path">/shop/slide/{id}</attribute>
                 <attribute name="normalization_context">
-                    <attribute name="groups">shop:slider:read</attribute>
+                    <attribute name="groups">shop:banner:read</attribute>
                 </attribute>
             </itemOperation>
         </itemOperations>
@@ -248,8 +242,7 @@ return [
         <property name="createdAt" writable="false"/>
         <property name="updatedAt" writable="false"/>
     </resource>
-</resources>
-```
+</resources>```
 
 
 ```xml
@@ -261,7 +254,7 @@ return [
            xsi:schemaLocation="https://api-platform.com/schema/metadata https://api-platform.com/schema/metadata/metadata-2.0.xsd"
 >
     <resource class="Black\SyliusBannerPlugin\Entity\SlideTranslation" shortName="SlideTranslation">
-        <attribute name="validation_groups">Slider</attribute>
+        <attribute name="validation_groups">Banner</attribute>
 
         <collectionOperations />
 
@@ -279,12 +272,12 @@ return [
         <property name="id" identifier="true" writable="false"/>
         <property name="locale" required="true"/>
     </resource>
-</resources>
-```
+</resources>```
 7.add this files to your project 
 
 ```xml
 <!-- config/serialization/Banner.xml -->
+<?xml version="1.0" ?>
 <?xml version="1.0" ?>
 
 <serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
@@ -313,6 +306,7 @@ return [
             <group>shop:banner:read</group>
         </attribute>
 
+
     </class>
 </serializer>
 ```
@@ -327,16 +321,13 @@ return [
 >
     <class name="Black\SyliusBannerPlugin\Entity\Slide">
         <attribute name="id">
-            <group>admin:slider:read</group>
-            <group>shop:slider:read</group>
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
         </attribute>
-        <attribute name="path">
-            <group>admin:slider:read</group>
-            <group>shop:slider:read</group>
-        </attribute>
+
         <attribute name="translations">
-            <group>admin:slider:read</group>
-            <group>shop:slider:read</group>
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
         </attribute>
     </class>
 </serializer>
@@ -353,12 +344,20 @@ return [
 >
     <class name="Black\SyliusBannerPlugin\Entity\SlideTranslation">
         <attribute name="id">
-            <group>admin:slider:read</group>
-            <group>shop:slider:read</group>
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
         </attribute>
         <attribute name="content">
-            <group>admin:slider:read</group>
-            <group>shop:slider:read</group>
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
+        </attribute>
+        <attribute name="link">
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
+        </attribute>
+        <attribute name="path">
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
         </attribute>
     </class>
 </serializer>
