@@ -26,9 +26,10 @@ final class SlideTranslationType extends AbstractResourceType
                 'label' => 'black_sylius_banner.form.slide.url.label',
                 'required' => false,
             ])
-            ->add('file', FileType::class, [
+
+            ->add('logoFile', FileType::class, [
                 'label' => 'sylius.form.image.file',
-                'required' => true ,
+                'required'=>true
             ])
         ;
     }

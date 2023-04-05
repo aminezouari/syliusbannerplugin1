@@ -14,5 +14,7 @@
         <field name="content" type="text" nullable="true"/>
         <field name="link" type="text" nullable="true" />
         <field name="path" nullable="true" />
+        <field name="logoName" type="string" column="logo_name"/>
+
     </mapped-superclass>
 </doctrine-mapping>

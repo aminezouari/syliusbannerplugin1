@@ -5,6 +5,7 @@ namespace Black\SyliusBannerPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity
@@ -16,8 +17,12 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
 
     public ?string $content = null;
 
-    /**file name*/    
+    /**file name*/
     public ?\SplFileInfo $file = null;
+
+    protected ?File $logoFile = null;
+    protected ?string $logoName = null;
+    protected ?string $logoPath = null;
 
     public function getFile(): ?\SplFileInfo
     {
@@ -28,6 +33,7 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
     {
         $this->file = $file;
     }
+
     public function hasFile(): bool
     {
         return null !== $this->file;
@@ -55,7 +61,7 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
         return null !== $this->path;
     }
 
-    
+
     /**
      * @ORM\Column(type="string")
      */
@@ -84,5 +90,35 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
     public function setLink(?string $link): void
     {
         $this->link = $link;
+    }
+
+    public function setLogoFile(?File $file): void
+    {
+        $this->logoFile = $file;
+
+    }
+
+    public function getLogoFile(): ?File
+    {
+        return $this->logoFile;
+    }
+
+    public function setLogoName(?string $logoName): void
+    {
+        $this->logoName = $logoName;
+    }
+
+    public function getLogoName(): ?string
+    {
+        return $this->logoName;
+    }
+
+
+    public function getLogoPath(): ?string
+    {
+        if ($this->logoName) {
+            return '/media/slide-logo/' . $this->logoName;
+        }
+        return null;
     }
 }

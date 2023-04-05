@@ -27,43 +27,40 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $containerConfigurator->extension('knp_gaufrette', [
         'adapters' => [
-            'black_sylius_banner' => [
-                'safe_local' => [
-                    'directory' => '%sylius_core.public_dir%/media/banner/',
-                    'create' => true
-                ]
-            ]
+            'slide_translation_logo' => [
+                'local' => [
+                    'directory' => '%sylius_core.public_dir%/media/slide-logo',
+                    'create' => true,
+                ],
+            ],
         ],
         'filesystems' => [
-            'black_sylius_banner' => [
-                'adapter' => '%black_banner.uploader.filesystem%'
-            ]
+            'slide_translation_logo' => [
+                'adapter' => 'slide_translation_logo',
+            ],
         ],
         'stream_wrapper' => null
     ]);
 
     $containerConfigurator->extension('liip_imagine', [
         'loaders' => [
-            'black_sylius_banner' => [
-                'stream' => [
-                    'wrapper' => 'gaufrette://black_sylius_banner/'
-                ]
-            ]
+            'slide_translation_logo' => [
+                'filesystem' => [
+                    'data_root' => '%kernel.project_dir%/public/media/slider-logo',
+                ],
+            ],
         ],
         'filter_sets' => [
-            'black_sylius_banner' => [
-                'data_loader' => 'black_sylius_banner',
+            'black_banner_logo' => [
+                'data_loader' => 'slide_translation_logo',
                 'filters' => [
-                    'upscale' => [
-                        'min' => [1200, 400]
-                    ],
                     'thumbnail' => [
-                        'size' => [1200, 400],
-                        'mode' => 'inbound'
-                    ]
-                ]
-            ]
-        ]
+                        'size' => [300, 300],
+                        'mode' => 'outbound',
+                    ],
+                ],
+            ],
+        ],
     ]);
 
     $containerConfigurator->extension('sylius_grid', [
@@ -88,7 +85,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'type' => 'string',
                         'label' => 'sylius.ui.name'
                     ]
-                    
+
                 ],
                 'filters' => [
                     'code' => [
