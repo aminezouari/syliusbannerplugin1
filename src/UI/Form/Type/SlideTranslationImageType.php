@@ -15,11 +15,12 @@ final class SlideTranslationImageType extends ImageType
     }
 
 
-
     /**
      * {@inheritdoc}
      */
     public function getBlockPrefix(): string
     {
         return 'black_sylius_banner_slide_translation_image';
+    }
+
 }
