@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Black\SyliusBannerPlugin\Entity\SlideTranslationImage;
+use Black\SyliusBannerPlugin\UI\Form\Type\ContentType;
 use Black\SyliusBannerPlugin\validator;
 use Black\SyliusBannerPlugin\UI\Form\Type\BannerType;
 use Black\SyliusBannerPlugin\UI\Form\Type\ChannelFilterType;
@@ -33,7 +35,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             '%black_sylius_banner.model.slide_translation.class%'
         ])
         ->tag('form.type');
-
+    $services
+        ->set('black_sylius_banner.form.type.slide_translation_image', SlideTranslationImage::class)
+        ->args([
+            '%black_sylius_banner.model.slide_translation_image.class%'
+        ])
+        ->tag('form.type');
+    $services
+        ->set('black_sylius_banner.form.type.slide_translation_content', ContentType::class)
+        ->args([
+            '%black_sylius_banner.model.slide_translation_content.class%'
+        ])
+        ->tag('form.type');
     $services
         ->set('black_sylius_banner.form.type.channel_filter', ChannelFilterType::class)
         ->args([
@@ -41,6 +54,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ])
         ->tag('form.type');
 
- 
+
 
 };

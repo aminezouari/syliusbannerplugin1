@@ -272,6 +272,8 @@ return [
 
         <property name="id" identifier="true" writable="false"/>
         <property name="locale" required="true"/>
+        <property name="images" required="true"/>
+
     </resource>
 </resources>```
 
@@ -357,14 +359,48 @@ return [
             <group>admin:banner:read</group>
             <group>shop:banner:read</group>
         </attribute>
-        <attribute name="path">
+        <attribute name="images">
             <group>admin:banner:read</group>
             <group>shop:banner:read</group>
         </attribute>
     </class>
 </serializer>
 ```
-9. Execute migration
+```xml
+<?xml version="1.0" ?>
+
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="Black\SyliusBannerPlugin\Entity\SlideTranslationImage">
+        <attribute name="id">
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
+        </attribute>
+
+
+        <attribute name="imagePath">
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
+        </attribute>
+        <attribute name="device">
+            <group>admin:banner:read</group>
+            <group>shop:banner:read</group>
+        </attribute>
+    </class>
+</serializer>
+
+```
+9. Execute migration:
+add this to your config/sylius/packages/_sylius.yaml 
+sylius_resource:
+    resources:
+    black_sylius_banner.slide_translation_image:
+    classes:
+    model: Black\SyliusBannerPlugin\Entity\SlideTranslationImage
+
+10. Execute migration
 
 ```bash
 bin/console doctrine:migrations:diff

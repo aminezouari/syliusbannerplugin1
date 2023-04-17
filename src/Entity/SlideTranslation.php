@@ -6,43 +6,43 @@ namespace Black\SyliusBannerPlugin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
 use Symfony\Component\HttpFoundation\File\File;
+use Sylius\Component\Core\Model\ImagesAwareInterface;
+use Sylius\Component\Core\Model\ImageInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+
 
 /**
  * @ORM\Entity
  */
 class SlideTranslation extends AbstractTranslation implements SlideTranslationInterface
 {
+
     /** @psalm-suppress PropertyNotSetInConstructor */
     public ?int $id;
-
-    public ?string $content = null;
+    /**
+     * @var Collection<int, ContentInterface>
+     */
+    private Collection $contents;
 
     /**file name*/
     public ?\SplFileInfo $file = null;
 
-    protected ?File $logoFile = null;
-    protected ?string $logoName = null;
-    protected ?string $logoPath = null;
-
-    public function getFile(): ?\SplFileInfo
-    {
-        return $this->file;
-    }
-
-    public function setFile(?\SplFileInfo $file): void
-    {
-        $this->file = $file;
-    }
-
-    public function hasFile(): bool
-    {
-        return null !== $this->file;
-    }
-    /**add the path to the translation */
-
     /**
-     * @ORM\Column(type="string",nullable="true")
+     * @var Collection|ImageInterface[]
      */
+    protected $images;
+
+    public function __construct()
+    {
+
+        $this->images = new ArrayCollection();
+        $this->contents = new ArrayCollection();
+    }
+
+
+
 
     public ?string $path = null;
 
@@ -72,15 +72,7 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
         return $this->id;
     }
 
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
 
-    public function setContent(?string $content): void
-    {
-        $this->content = $content;
-    }
 
     public function getLink(): ?string
     {
@@ -92,33 +84,96 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
         $this->link = $link;
     }
 
-    public function setLogoFile(?File $file): void
+    /**
+     * {@inheritdoc}
+     */
+    public function getImages(): Collection
     {
-        $this->logoFile = $file;
-
+        return $this->images;
     }
 
-    public function getLogoFile(): ?File
+    /**
+     * {@inheritdoc}
+     */
+    public function getImagesByType(string $type): Collection
     {
-        return $this->logoFile;
+        return $this->images->filter(function (ImageInterface $image) use ($type) {
+            return $type === $image->getType();
+        });
     }
 
-    public function setLogoName(?string $logoName): void
+    /**
+     * {@inheritdoc}
+     */
+    public function hasImages(): bool
     {
-        $this->logoName = $logoName;
+        return !$this->images->isEmpty();
     }
 
-    public function getLogoName(): ?string
+    /**
+     * {@inheritdoc}
+     */
+    public function hasImage(ImageInterface $image): bool
     {
-        return $this->logoName;
+        return $this->images->contains($image);
     }
 
-
-    public function getLogoPath(): ?string
+    /**
+     * {@inheritdoc}
+     */
+    public function addImage(ImageInterface $image): void
     {
-        if ($this->logoName) {
-            return '/media/slide-logo/' . $this->logoName;
+        $image->setOwner($this);
+        $this->images->add($image);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeImage(ImageInterface $image): void
+    {
+        if ($this->hasImage($image)) {
+            $image->setOwner(null);
+            $this->images->removeElement($image);
         }
-        return null;
+    }
+    public function addSlide(SlideInterface $slide): void
+    {
+        $this->slides->add($slide);
+        $slide->setBanner($this);
+    }
+
+    public function removeSlide(SlideInterface $slide): void
+    {
+        if ($this->hasSlide($slide)) {
+            $this->slides->removeElement($slide);
+            $slide->setBanner(null);
+        }
+    }
+
+    public function hasSlide(SlideInterface $slide): bool
+    {
+        return $this->slides->contains($slide);
+    }
+
+    public function removeContent(Content $content): void
+    {
+        if ($this->hasContent($content)) {
+            $content->setSlideTranslation(null);
+            $this->images->removeElement($content);
+        }
+    }
+    public function addContent(Content $content): void
+    {
+        $this->contents->add($content);
+        $content->setSlideTranslation($this);
+    }
+    public function getContents(){
+        return $this->contents;
+    }
+
+    public function hasContent(Content $content): bool
+    {
+        return $this->contents->contains($content);
     }
 }

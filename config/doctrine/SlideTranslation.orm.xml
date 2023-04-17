@@ -11,10 +11,22 @@
             <generator />
         </id>
 
-        <field name="content" type="text" nullable="true"/>
         <field name="link" type="text" nullable="true" />
-        <field name="path" nullable="true" />
-        <field name="logoName" type="string" column="logo_name"/>
+        <one-to-many field="images" target-entity="Black\SyliusBannerPlugin\Entity\SlideTranslationImage"
+                     mapped-by="owner" orphan-removal="true">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+            <join-column on-delete="SET NULL"/>
 
+        </one-to-many>
+        <one-to-many field="contents"
+                     target-entity="Black\SyliusBannerPlugin\Entity\Content"
+                     mapped-by="slideTranslation"
+                     orphan-removal="true">
+            <cascade>
+                <cascade-all />
+            </cascade>
+        </one-to-many>
     </mapped-superclass>
 </doctrine-mapping>
