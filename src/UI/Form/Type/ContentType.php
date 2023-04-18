@@ -31,9 +31,12 @@ final class ContentType extends AbstractResourceType
             ])
             ->add('contentType', ChoiceType::class, [
                 'choices' => [
-                    'Mobile' => 'Mobile',
-                    'Desktop' => 'Desktop',
-                    'Tablette' => 'Tablette',
+                    'Title' => 'Title',
+                    'Subtitle' => 'Subtitle',
+                    'Caption' => 'Caption',
+                    'Button' => 'Button',
+                    'Link' => 'Link',
+                    'Text' => 'Text',
                 ], 'label' => 'Content type',
                 'multiple' => true
             ]);
