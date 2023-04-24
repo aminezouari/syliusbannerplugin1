@@ -22,7 +22,7 @@ final class SlideTranslationImageType extends ImageType
             'multiple'=>true,
             'choices' => [
                 'Mobile' => 'Mobile',
-                'Desktop' => 'Tesktop',
+                'Desktop' => 'Desktop',
                 'Tablette' => 'Tablette',
             ],
         ]);
