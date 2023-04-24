@@ -9,7 +9,7 @@
         <id name="id" column="id" type="integer">
             <generator />
         </id>
-        <field name="contentType" column="contentType" type="array" />
+        <field name="contentType" column="contentType" type="array" nullable="true"/>
         <field name="text" column="text" type="string" />
         <field name="link" column="link" type="string" />
         <many-to-one field="slideTranslation"
