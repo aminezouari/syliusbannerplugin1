@@ -13,6 +13,20 @@ final class SlideTranslationImageType extends ImageType
     {
         parent::__construct(SlideTranslationImage::class);
     }
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        parent::buildForm($builder, $options);
+
+        $builder->add('device', ChoiceType::class, [
+            'label' => 'Devices',
+            'multiple'=>true,
+            'choices' => [
+                'Mobile' => 'Mobile',
+                'Desktop' => 'Tesktop',
+                'Tablette' => 'Tablette',
+            ],
+        ]);
+    }
 
 
     /**

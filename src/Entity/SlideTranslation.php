@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 
-
 /**
  * @ORM\Entity
  */
@@ -22,7 +21,7 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
     /** @psalm-suppress PropertyNotSetInConstructor */
     public ?int $id;
     /**
-     * @var Collection<int, ContentInterface>
+     * @var Collection|ContentInterface[]
      */
     private Collection $contents;
 
@@ -40,8 +39,6 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
         $this->images = new ArrayCollection();
         $this->contents = new ArrayCollection();
     }
-
-
 
 
     public ?string $path = null;
@@ -71,7 +68,6 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
     {
         return $this->id;
     }
-
 
 
     public function getLink(): ?string
@@ -137,38 +133,24 @@ class SlideTranslation extends AbstractTranslation implements SlideTranslationIn
             $this->images->removeElement($image);
         }
     }
-    public function addSlide(SlideInterface $slide): void
-    {
-        $this->slides->add($slide);
-        $slide->setBanner($this);
-    }
 
-    public function removeSlide(SlideInterface $slide): void
-    {
-        if ($this->hasSlide($slide)) {
-            $this->slides->removeElement($slide);
-            $slide->setBanner(null);
-        }
-    }
-
-    public function hasSlide(SlideInterface $slide): bool
-    {
-        return $this->slides->contains($slide);
-    }
 
     public function removeContent(Content $content): void
     {
         if ($this->hasContent($content)) {
             $content->setSlideTranslation(null);
-            $this->images->removeElement($content);
+            $this->contents->removeElement($content);
         }
     }
-    public function addContent(Content $content): void
+
+    public function addContent(?Content $content): void
     {
         $this->contents->add($content);
         $content->setSlideTranslation($this);
     }
-    public function getContents(){
+
+    public function getContents()
+    {
         return $this->contents;
     }
 

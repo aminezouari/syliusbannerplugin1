@@ -5,10 +5,10 @@ namespace Black\SyliusBannerPlugin\Entity;
 class Content implements ContentInterface
 {
     private ?int $id;
-    private array $contentType;
-    private string $text;
-    private string $link;
-    private ?SlideTranslationInterface $slideTranslation = null;
+    private ?array $contentType;
+    private ?string $text;
+    private ?string $link;
+    private ?SlideTranslationInterface $slideTranslation ;
 
     public function getId()
     {
